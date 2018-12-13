@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>CineGrub FAQ</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/preloader.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lobster+Two|Medula+One|Grand+Hotel|Quicksand:400,700"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="form.css" />
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+  </head>
+
+  <body>
+    <div id="preloader">
+      <div class="sk-circle">
+        <div class="sk-circle1 sk-child"></div>
+        <div class="sk-circle2 sk-child"></div>
+        <div class="sk-circle3 sk-child"></div>
+        <div class="sk-circle4 sk-child"></div>
+        <div class="sk-circle5 sk-child"></div>
+        <div class="sk-circle6 sk-child"></div>
+        <div class="sk-circle7 sk-child"></div>
+        <div class="sk-circle8 sk-child"></div>
+        <div class="sk-circle9 sk-child"></div>
+        <div class="sk-circle10 sk-child"></div>
+        <div class="sk-circle11 sk-child"></div>
+        <div class="sk-circle12 sk-child"></div>
+      </div>
+    </div>
+
+    <div id="sticky-footer">
+      <header>
+        <form id="userLogin">
+          Username: <input id="login" type="text" name="login" /> Password:
+          <input id="password" type="text" name="password" />
+          <button id="signIn">Log In</button>
+          <button id="register">Register</button>
+        </form>
+
+        <div class="dropdown">
+          <p id="zipcode-alert">
+            Results found for: <span id="zipcode"></span>
+          </p>
+          <i class="fas fa-user"></i>
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          ></button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="../../index.html">Home</a>
+            <a class="dropdown-item" href="currentplans.html">Current Plans</a>
+            <a class="dropdown-item" href="faq.html">FAQ</a>
+            <a class="dropdown-item" href="../../index.html" id="signOut"
+              >Sign Out</a
+            >
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <h2 id="faqTitle">
+          <span id="faqLogo">CineGrub</span>Frequently Asked Questions
+        </h2>
+
+        <div id="faqDiv">
+          <button class="accordion">
+            <span class="questions">What is CineGrub?</span>
+          </button>
+
+          <div class="panel">
+            <p class="answers">
+              CineGrub connects a user to information on local restaurants and
+              movies playing nearby. Reviews are calculated and displayed within
+              a five star scale to inform the user of a restaurant or movie's
+              popularity. In addition, registered members may share their plans
+              through invitations to friends within the app.
+            </p>
+          </div>
+
+          <button class="accordion">
+            <span class="questions">
+              Can I use an physical address to search within CineGrub instead of
+              entering a zipcode?
+            </span>
+          </button>
+
+          <div class="panel">
+            <p class="answers">
+              Not at the moment. All searches are filtered through valid
+              zipcodes, however, our data comes equipped with Fandango-supported
+              links and Google Maps functionality to assist in finding a
+              location near you.
+            </p>
+          </div>
+
+          <button class="accordion">
+            <span class="questions">
+              If I want to invite someone to a movie and restaurant, do they
+              also have to be a member?
+            </span>
+          </button>
+
+          <div class="panel">
+            <p class="answers">
+              Yes. The person you choose to invite must also be a registered
+              member of CineGrub.
+            </p>
+          </div>
+
+          <button class="accordion">
+            <span class="questions">
+              I am having difficulty signing in with my username.
+            </span>
+          </button>
+
+          <div class="panel">
+            <p class="answers">
+              CineGrub stores every username, which cannot then be registered by
+              a new user. In addition, every password is case-sensitive. Please
+              make sure to double-check your credentials.
+            </p>
+          </div>
+
+          <button class="accordion">
+            <span class="questions">
+              Is there a dedicated service number or way to contact if I have
+              any further questions?
+            </span>
+          </button>
+
+          <div class="panel">
+            <p class="answers">
+              At this time, CineGrub does not have a dedicated service number.
+              You can however scroll to the form at the bottom of this page to
+              send any additional questions or issues you may be experiencing.
+            </p>
+          </div>
+
+          <button class="accordion">
+            <span class="questions">
+              How do I go about saving a movie and restaraunt?
+            </span>
+          </button>
+
+          <div class="panel">
+            <p class="answers">
+              Each restaurant and movie is individually equipped with a plus
+              button to make creating plans seamless. You may access your
+              CineGrub selections from the Current Plans page located within the
+              dropdown menu beside your username.
+            </p>
+          </div>
+
+          <button class="accordion">
+            <span class="questions">
+              Am I able to select more than one movie or restaurant?
+            </span>
+          </button>
+
+          <div class="panel">
+            <p class="answers">
+              You can only store one movie and restaurant at a time. You can
+              however delete your current choices and modify them as often as
+              you'd like.
+            </p>
+          </div>
+        </div>
+
+        <form
+          method="POST"
+          action="https://formspree.io/keiranhamilton@gmail.com"
+          id="formspree"
+        >
+          <div id="formOutline">
+            <div id="groupedInputs">
+              <input
+                type="text"
+                id="nameFormspree"
+                name="email"
+                placeholder="Name"
+                required
+              />
+              <input
+                type="email"
+                id="emailFormspree"
+                name="email"
+                placeholder="Email"
+                required
+              />
+            </div>
+            <input
+              type="text"
+              id="subjectFormspree"
+              name="_subject"
+              placeholder="Subject Line"
+              required
+            />
+            <textarea id="textFormspree" name="message" required></textarea>
+
+            <button id="submitFormspree" type="submit">Send</button>
+          </div>
+
+          <div id="contactUs">
+            <p>
+              If you have any further questions, don't hesitate to contact us by
+              filling out the form.
+            </p>
+          </div>
+        </form>
+      </main>
+    </div>
+
+    <footer style="display: flex">
+      &copy Copyright 2018 - CineGrub, LLC.
+      <img
+        src="../images/MovieDB_API.png"
+        alt="Powered by MovieDB Logo"
+        id="moviedb-logo"
+      />
+      <img
+        src="../images/ZomatoAPI.png"
+        alt="Powered by Zomato API Logo"
+        id="zomato-logo"
+      />
+      <img
+        src="../images/trilogylogo.png"
+        alt="Trilogy Education Services Logo"
+        id="trilogy-logo"
+      />
+    </footer>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.32.2/dist/sweetalert2.all.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+
+    <script rel="javascript" src="../javascript/logic.js"></script>
+  </body>
+</html>
