@@ -80,14 +80,17 @@ submitButton.on("click", function(e) {
         method: "GET"
       }).then(function(response) {
         console.log(response);
-        if (response.hasOwnProperty("zip_code")) {
-          latitude = response.lat;
-          longitude = response.lng;
-          console.log("Latitude Coordinates = " + latitude);
-          console.log("Longitude Coordinates = " + longitude);
-        } else if (response.hasOwnProperty("error_code")) {
+        try {
+          if (response.hasOwnProperty("zip_code")) {
+            latitude = response.lat;
+            longitude = response.lng;
+            console.log("Latitude Coordinates = " + latitude);
+            console.log("Longitude Coordinates = " + longitude);
+          }
+        } catch (err) {
           latitude = "undefined";
           longitude = "undefined";
+          console.log(err);
           console.log("var latitude = " + latitude);
           console.log("var longitude = " + longitude);
         }
