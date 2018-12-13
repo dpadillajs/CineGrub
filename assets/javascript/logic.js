@@ -79,20 +79,16 @@ submitButton.on("click", function(e) {
         url: zipcodeApiUrl,
         method: "GET"
       }).then(function(response) {
-        console.log(response);
-        try {
-          if (response.hasOwnProperty("zip_code")) {
-            latitude = response.lat;
-            longitude = response.lng;
-            console.log("Latitude Coordinates = " + latitude);
-            console.log("Longitude Coordinates = " + longitude);
-          }
-        } catch (err) {
+        if (response.hasOwnProperty("error_code")) {
           latitude = "undefined";
           longitude = "undefined";
-          console.log(err);
           console.log("var latitude = " + latitude);
           console.log("var longitude = " + longitude);
+        } else {
+          latitude = response.lat;
+          longitude = response.lng;
+          console.log("Latitude Coordinates = " + latitude);
+          console.log("Longitude Coordinates = " + longitude);
         }
 
         if (latitude !== "undefined" && longitude !== "undefined") {
