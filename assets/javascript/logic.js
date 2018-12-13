@@ -75,21 +75,80 @@ submitButton.on("click", function(e) {
         "/degrees";
       console.log("Zipcode URL is: " + zipcodeApiUrl);
 
-      $.ajax({
-        url: zipcodeApiUrl,
-        method: "GET"
-      }).then(function(response) {
-        if (response.hasOwnProperty("error_code")) {
-          latitude = "undefined";
-          longitude = "undefined";
-          console.log("var latitude = " + latitude);
-          console.log("var longitude = " + longitude);
-        } else {
-          latitude = response.lat;
-          longitude = response.lng;
-          console.log("Latitude Coordinates = " + latitude);
-          console.log("Longitude Coordinates = " + longitude);
-        }
+      try {
+        $.ajax({
+          url: zipcodeApiUrl,
+          method: "GET"
+        }).then(function(response) {
+          if (response.hasOwnProperty("zip_code")) {
+            latitude = response.lat;
+            longitude = response.lng;
+            console.log("Latitude Coordinates = " + latitude);
+            console.log("Longitude Coordinates = " + longitude);
+          }
+
+          if (latitude !== "undefined" && longitude !== "undefined") {
+            // AJAX Call for Zomato API
+            var queryURL =
+              "https://developers.zomato.com/api/v2.1/geocode?" +
+              "lat=" +
+              latitude +
+              "&lon=" +
+              longitude +
+              "&apikey=" +
+              "b33efca80e6e3f8b5a3cfaf40c6ad1f4";
+            console.log("Zomato API URL is: " + queryURL);
+
+            $.ajax({
+              url: queryURL,
+              method: "GET"
+            }).then(function(response) {
+              foodArr = response.nearby_restaurants;
+              showFood(foodArr);
+            });
+
+            // AJAX Call for MovieDB API
+            $.ajax({
+              url: "https://api.themoviedb.org/3/movie/now_playing",
+              data: {
+                api_key: "b9a61052b8eb1f78c85667deffc9b7aa",
+                language: "en-US",
+                region: "us",
+                page: "1"
+              },
+              method: "GET"
+            }).then(function(response) {
+              movieArr = response.results;
+              showMovies(movieArr);
+            });
+          } else {
+            Swal({
+              type: "error",
+              title: "Error...",
+              html:
+                "The value you entered is not a valid ZIP Code&trade;. Please try again."
+            });
+
+            zomatoDiv.empty();
+            zomatoDiv.append(
+              $("<p>")
+                .text("No results were found.")
+                .addClass("noResultsFound")
+            );
+
+            movieDiv.empty();
+            movieDiv.append(
+              $("<p>")
+                .text("No results were found.")
+                .addClass("noResultsFound")
+            );
+          }
+        });
+      } finally {
+        latitude = "undefined";
+        longitude = "undefined";
+        console.log("var latitude = " + latitude);
+        console.log("var longitude = " + longitude);
 
         if (latitude !== "undefined" && longitude !== "undefined") {
           // AJAX Call for Zomato API
@@ -147,7 +206,7 @@ submitButton.on("click", function(e) {
               .addClass("noResultsFound")
           );
         }
-      });
+      }
     }
   }, 1000);
 });
