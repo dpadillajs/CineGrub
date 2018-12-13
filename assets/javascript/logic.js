@@ -144,7 +144,7 @@ submitButton.on("click", function(e) {
             );
           }
         });
-      } finally {
+      } catch (err) {
         latitude = "undefined";
         longitude = "undefined";
         console.log("var latitude = " + latitude);
