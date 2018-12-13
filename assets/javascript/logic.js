@@ -79,6 +79,7 @@ submitButton.on("click", function(e) {
         url: zipcodeApiUrl,
         method: "GET"
       }).then(function(response) {
+        console.log(response);
         if (response.hasOwnProperty("zip_code")) {
           latitude = response.lat;
           longitude = response.lng;
