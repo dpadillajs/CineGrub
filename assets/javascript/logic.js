@@ -84,7 +84,7 @@ submitButton.on("click", function(e) {
           longitude = response.lng;
           console.log("Latitude Coordinates = " + latitude);
           console.log("Longitude Coordinates = " + longitude);
-        } else {
+        } else if (response.hasOwnProperty("error_code")) {
           latitude = "undefined";
           longitude = "undefined";
           console.log("var latitude = " + latitude);
