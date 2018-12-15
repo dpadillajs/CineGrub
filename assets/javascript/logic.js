@@ -1,11 +1,11 @@
 // Initialize Firebase
 var config = {
-  apiKey: "AIzaSyD3_PKioxYnnZv67H5XrE5iQxpSbVNOzPc",
-  authDomain: "cinegrub-c849c.firebaseapp.com",
-  databaseURL: "https://cinegrub-c849c.firebaseio.com",
-  projectId: "cinegrub-c849c",
-  storageBucket: "cinegrub-c849c.appspot.com",
-  messagingSenderId: "893203931783"
+  apiKey: "AIzaSyAD1PyuyyB3CflrQz899blueNuo1idhes0",
+  authDomain: "cinegrub-b0a0f.firebaseapp.com",
+  databaseURL: "https://cinegrub-b0a0f.firebaseio.com",
+  projectId: "cinegrub-b0a0f",
+  storageBucket: "",
+  messagingSenderId: "528592957764"
 };
 firebase.initializeApp(config);
 
