@@ -37,7 +37,7 @@ in the role of a Front-end Web Developer. Here are some of the skills I learned 
 of this project.
 
 - Integration w/ **new** Third-party Libraries (anime.js, Formspree, SweetAlert2)
-- Google Maps (Geolocation API, Maps Static API, Maps URLs)
+- Google Maps (Geocoding API, Maps Static API, Maps URLs)
 - CSS Flip Animation
 - ZIP Code Validation
 - Dynamic Contact Form
@@ -50,8 +50,8 @@ of this project.
 
 I was in charge of the overall CSS for every aspect of the website. Creating the layout, the animations,
 dynamic elements, API formatting, and typography. Aside from the visual aspect of the website, I created
-the functionality for the submit button, Google Maps API with AJAX, fixing user authentication bugs, and
-enhancing the Zomato & MovieDB APIs with star ratings using Font Awesome 5.
+the functionality for the submit button, the loading icon, Google Maps API with AJAX, fixing user
+authentication bugs, and enhancing the Zomato & MovieDB APIs with star ratings using Font Awesome 5.
 _(Also, feel free to check out https://github.com/shawhannah/project-1 to validate my branches/commits)_
 
 ### Comments
