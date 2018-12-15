@@ -16,7 +16,7 @@ var movieArr;
 var zomatoArr;
 var latitude;
 var longitude;
-var isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
+var isValidFormat = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
 var everyOtherElement = 2; // Flag variable for designing every other Zomato card's color
 
 // DOM Reference Variables
@@ -48,15 +48,14 @@ submitButton.on("click", function(e) {
 
   preloader();
   setTimeout(function() {
-    if (!isValidZip.test(userInput.val().trim())) {
+    if (!isValidFormat.test(userInput.val().trim())) {
       searchDiv.append(errorMessage.slideDown());
     } else {
       errorMessage.slideUp();
       zipcode = userInput.val().trim();
-      $("#zipcode").text(zipcode);
       userInput.val("");
-      console.log("--------------------------------------------");
-      console.log("Zipcode is: " + zipcode);
+      console.log("-------------------------------------------");
+      console.log("ZIP Code: " + zipcode);
 
       formatWebpage();
       $("#zipcode-alert").css("display", "block");
@@ -66,51 +65,45 @@ submitButton.on("click", function(e) {
       $("#search-div").css("grid-row", "2 / span 1");
       $("footer").css("display", "flex");
 
-      // AJAX CALL for Zipcode API
-      var zipcodeApiUrl =
-        "https://www.zipcodeapi.com/rest/" +
-        "js-KLjyyEnpYrCbTtOKE34eGndRsFa1hupXv2vCfmtnmlkfygwiWK05HfyWoRALOauZ" +
-        "/info.json/" +
+      // AJAX CALL for Google Maps API
+      var googleMapsURL =
+        "https://maps.googleapis.com/maps/api/geocode/json?" +
+        "address=" +
         zipcode +
-        "/degrees";
-      console.log("Zipcode URL is: " + zipcodeApiUrl);
+        "&key=" +
+        "AIzaSyBxRCuURpipFqMG-FIb6tBy-UOa6Uvb2kw";
+      console.log("Google Maps Geocoding API Call: " + googleMapsURL);
 
       $.ajax({
-        url: zipcodeApiUrl,
+        url: googleMapsURL,
         method: "GET"
       }).then(function(response) {
-        console.log(response);
-        if (response.hasOwnProperty("zip_code")) {
-          latitude = response.lat;
-          longitude = response.lng;
-          console.log("Latitude Coordinates = " + latitude);
-          console.log("Longitude Coordinates = " + longitude);
-        } else if (response.hasOwnProperty("error_code")) {
+        if (response.status === "ZERO_RESULTS") {
           latitude = "undefined";
           longitude = "undefined";
-          console.log("var latitude = " + latitude);
-          console.log("var longitude = " + longitude);
+          console.log("Latitude Coordinates: " + latitude);
+          console.log("Longitude Coordinates: " + longitude);
+        } else if (response.results[0].types[0] === "postal_code") {
+          latitude = response.results[0].geometry.location.lat;
+          longitude = response.results[0].geometry.location.lng;
+          console.log("Latitude Coordinates: " + latitude);
+          console.log("Longitude Coordinates: " + longitude);
+        } else {
+          latitude = "undefined";
+          longitude = "undefined";
+          console.log("Latitude Coordinates: " + latitude);
+          console.log("Longitude Coordinates: " + longitude);
         }
 
         if (latitude !== "undefined" && longitude !== "undefined") {
-          // AJAX Call for Zomato API
-          var queryURL =
-            "https://developers.zomato.com/api/v2.1/geocode?" +
-            "lat=" +
-            latitude +
-            "&lon=" +
-            longitude +
-            "&apikey=" +
-            "b33efca80e6e3f8b5a3cfaf40c6ad1f4";
-          console.log("Zomato API URL is: " + queryURL);
-
-          $.ajax({
-            url: queryURL,
-            method: "GET"
-          }).then(function(response) {
-            foodArr = response.nearby_restaurants;
-            showFood(foodArr);
-          });
+          $("#zipcode-alert")
+            .text("Results found for: ")
+            .append(
+              $("<span>")
+                .text(zipcode)
+                .attr("id", "zipcode")
+            );
+          $("html, body").animate({ scrollTop: 0 }, "fast");
 
           // AJAX Call for MovieDB API
           $.ajax({
@@ -126,27 +119,51 @@ submitButton.on("click", function(e) {
             movieArr = response.results;
             showMovies(movieArr);
           });
+
+          // AJAX Call for Zomato API
+          var queryURL =
+            "https://developers.zomato.com/api/v2.1/search?" +
+            "lat=" +
+            latitude +
+            "&lon=" +
+            longitude +
+            "&apikey=" +
+            "b33efca80e6e3f8b5a3cfaf40c6ad1f4";
+          console.log("Zomato API Call: " + queryURL);
+
+          $.ajax({
+            url: queryURL,
+            method: "GET"
+          }).then(function(response) {
+            foodArr = response.restaurants;
+            showFood(foodArr);
+          });
         } else {
           Swal({
             type: "error",
             title: "Error...",
             html:
-              "The value you entered is not a valid ZIP Code&trade;. Please try again."
+              "The value you entered is not a valid US ZIP Code&trade;. Please try again."
           });
 
+          $("html, body").animate({ scrollTop: 0 }, "fast");
           zomatoDiv.empty();
           zomatoDiv.append(
             $("<p>")
-              .text("No results were found.")
+              .text("No results were found for " + zipcode + ".")
               .addClass("noResultsFound")
           );
 
           movieDiv.empty();
           movieDiv.append(
             $("<p>")
-              .text("No results were found.")
+              .text("No results were found for " + zipcode + ".")
               .addClass("noResultsFound")
           );
+
+          $("#zipcode-alert")
+            .text("")
+            .empty();
         }
       });
     }
@@ -155,7 +172,6 @@ submitButton.on("click", function(e) {
 
 // This function reformats landing page
 function formatWebpage() {
-  $("#head-title").text("CineGrub");
   $("#userLogin").css("display", "none");
   $("#search-div-formatting").css("display", "flex");
   $("#cinegrub-intro").css("display", "none");
@@ -764,7 +780,11 @@ $(document).on("click", ".addToFavRestaurant", function() {
     color: $(this)
       .closest(".restaurant-divs")
       .find(".front-card")
-      .css("background")
+      .css("background"),
+    buttonColor: $(this)
+      .closest(".restaurant-divs")
+      .find(".more-info")
+      .attr("class")
   };
 
   localStorage.setItem(
@@ -802,6 +822,7 @@ function renderRestCard(template) {
     .find("p")
     .text(addedRestCard.address);
   template.find(".front-card").css("background", addedRestCard.color);
+  template.find(".more-info").attr("class", addedRestCard.buttonColor);
   $("#favCard").append(template.html());
 }
 
@@ -913,11 +934,11 @@ database
           " at " +
           snapshot.val().address +
           " around " +
-          snapshot.val().time +
+          moment(snapshot.val().time, "HH:mm").format("hh:mm A") +
           ". See you there!"
       );
 
-      // Workaround for making these DOM elements appear under specific conditions
+      // Workaround for making these DOM elements appear under specific conditions (Duplicate Code NECCESSARY)
       if ($("#userInviteText").text() !== "") {
         $("#removeInvitation").css("visibility", "visible");
         $("#userInviteTextDiv").css("display", "block");
@@ -955,6 +976,7 @@ database
           .find("p")
           .text(rateparseObj2.address);
         restCardInv.find(".front-card").css("background", rateparseObj2.color);
+        restCardInv.find(".more-info").attr("class", rateparseObj2.buttonColor);
         $("#invitation").append(restCardInv.html());
       }
 
@@ -978,4 +1000,78 @@ $("#removeInvitation").on("click", function() {
   $("#removeInvitation").css("visibility", "hidden");
   $("#userInviteText").css("visibility", "hidden");
   $("#userInviteTextDiv").css("display", "none");
+});
+
+// Dynamic Contact Form Events Below
+$("#nameFormspree").keyup(function() {
+  if (
+    $("#nameFormspree")
+      .val()
+      .trim() !== ""
+  ) {
+    $("#nameFormspree").css("border-bottom", "solid white 2px");
+  } else {
+    $("#nameFormspree").css("border-bottom", "solid indianred 2px");
+  }
+});
+
+$("#emailFormspree").keyup(function() {
+  if (
+    $("#emailFormspree")
+      .val()
+      .trim() !== ""
+  ) {
+    $("#emailFormspree").css("border-bottom", "solid white 2px");
+  } else {
+    $("#emailFormspree").css("border-bottom", "solid indianred 2px");
+  }
+});
+
+$("#subjectFormspree").keyup(function() {
+  if (
+    $("#subjectFormspree")
+      .val()
+      .trim() !== ""
+  ) {
+    $("#subjectFormspree").css("border-bottom", "solid white 2px");
+  } else {
+    $("#subjectFormspree").css("border-bottom", "solid indianred 2px");
+  }
+});
+
+$("#textFormspree").keyup(function() {
+  if (
+    $("#textFormspree")
+      .val()
+      .trim() !== ""
+  ) {
+    $("#textFormspree").css("border-bottom", "solid white 2px");
+  } else {
+    $("#textFormspree").css("border-bottom", "solid indianred 2px");
+  }
+});
+
+$("#formOutline").keyup(function() {
+  if (
+    $("#nameFormspree")
+      .val()
+      .trim() !== "" &&
+    $("#emailFormspree")
+      .val()
+      .trim() !== "" &&
+    $("#subjectFormspree")
+      .val()
+      .trim() !== "" &&
+    $("#textFormspree")
+      .val()
+      .trim() !== ""
+  ) {
+    $("#formOutline").css("border", "solid white 2px");
+    $("#submitFormspree").css("border", "solid white 2px");
+    $("#submitFormspree").css("color", "white");
+  } else {
+    $("#formOutline").css("border", "solid indianred 2px");
+    $("#submitFormspree").css("border", "solid indianred 2px");
+    $("#submitFormspree").css("color", "indianred");
+  }
 });
