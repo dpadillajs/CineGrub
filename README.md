@@ -1,4 +1,4 @@
-# CineGrub | Where restaurants and movies come together.
+# CineGrub | where restaurants and movies come together
 
 Massive Front-end Project **(Project Duration: 2wks)**
 
@@ -46,6 +46,32 @@ of this project.
 - Reviewing Pull Requests
 - Connecting Custom URL to GitHub Pages
 
+### Technologies Used
+
+HTML5, CSS3, Javascript, jQuery, Bootstrap 4, Google Fonts, (3) Google
+Map APIs (Map Static API, Geocoding API, Maps URL), anime.js, JSDelivr,
+Font Awesome 5, Zomato API, MovieDB API, SweetAlert2, Firebase, Moment.js,
+(2) Fandango (hack) APIs, Formspree.
+
+### My Challenges
+
+- JavaScript Maps API
+- This API proved more difficult to implement, and therefore I compromised
+  on three other Google Map APIs to compensate for the functionality that
+  existed within the Javascript Maps API.
+
+- ZIP Code Validation
+- Getting the ZIP Code validation to work was really tricky, but utlimately I
+  was able to create three nested else-if statements to filter out the wrong ZIP
+  Codes by comparing their properties within their JSON data.
+
+- Zomato API _q parameter_
+- The _q parameter_ proved to be the toughest challenge for me because it didn't
+  offer the best coverage per ZIP Code searched. It would restrict ZIP Codes
+  based on my personal location. A sort of cookies issue. I resolved this by using
+  the _lat & lng parameters_ instead, which removed all hiccups that the API request
+  was producing.
+
 ### My Contributions
 
 I was in charge of the overall CSS for every aspect of the website. Creating the layout, the animations,
@@ -54,13 +80,21 @@ the functionality for the submit button, the loading icon, Google Maps API with 
 authentication bugs, and enhancing the Zomato & MovieDB APIs with star ratings using Font Awesome 5.
 _(Also, feel free to check out https://github.com/shawhannah/project-1 to validate my branches/commits)_
 
-### Comments
+### Future Features (had more developmental time been given)
+
+- Mobile Responsiveness
+- Enable Email Invitations & Notifications
+- Social Media Presence on Social Platforms (Instagram, Facebook, Twitter)
+- Convert from Manual Authentication to Firebase Authorization
+
+### Closing Comments
 
 I'm very pleased with how the final product came out. I got to collaborate with team members of unique
 personalities and skillsets. There was alot more I wish we could've done like creating a social media
 presence on other social platforms. There are however understandable limitations to the project as well.
 Because it serves as a portfolio project made by aspiring developers, high traffic volumes would be
-detrimental to the Google Maps feature which depends of dozens of call requests per search that cost
-money.
+detrimental to the Google Maps feature because it depends on dozens of call requests per search that cost
+money. I do feel like this portfolio project is something that I will pursue to make public with more
+features long after my class is finished on the side independently.
 
 _created by David M. Padilla_
